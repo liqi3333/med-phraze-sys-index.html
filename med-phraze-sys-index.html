@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>med-phraze-sys-index.html | GitHub &#x9879;&#x76EE;&#x5BFC;&#x822A;</title>
+        <style>
+            :root {
+                --bg: #f4f7f9;
+                --panel: rgba(255, 255, 255, 0.82);
+                --panel-strong: #ffffff;
+                --ink: #122936;
+                --text: #344b57;
+                --muted: #6b7f89;
+                --line: rgba(220, 230, 235, 0.88);
+                --shadow: 0 22px 60px rgba(24, 43, 54, 0.12);
+                --shadow-hover: 0 30px 80px rgba(24, 43, 54, 0.2);
+                --rose: #b3446c;
+                --teal: #1e7e83;
+                --blue: #14506d;
+                --amber: #c98225;
+                --ring: rgba(30, 126, 131, 0.22);
+                --mouse-x: 50%;
+                --mouse-y: 50%;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                min-height: 100vh;
+                margin: 0;
+                overflow-x: hidden;
+                background:
+                    radial-gradient(
+                        circle at var(--mouse-x) var(--mouse-y),
+                        rgba(30, 126, 131, 0.16),
+                        transparent 28vw
+                    ),
+                    linear-gradient(
+                        135deg,
+                        rgba(179, 68, 108, 0.12),
+                        transparent 36%
+                    ),
+                    linear-gradient(
+                        225deg,
+                        rgba(20, 80, 109, 0.12),
+                        transparent 38%
+                    ),
+                    var(--bg);
+                color: var(--text);
+                font-family:
+                    "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui,
+                    sans-serif;
+                line-height: 1.55;
+            }
+
+            body::before,
+            body::after {
+                content: "";
+                position: fixed;
+                z-index: -2;
+                width: 460px;
+                height: 460px;
+                border-radius: 999px;
+                filter: blur(8px);
+                opacity: 0.34;
+                pointer-events: none;
+                animation: floatOrb 15s ease-in-out infinite alternate;
+            }
+
+            body::before {
+                left: -180px;
+                top: -140px;
+                background: radial-gradient(
+                    circle,
+                    rgba(179, 68, 108, 0.34),
+                    transparent 68%
+                );
+            }
+
+            body::after {
+                right: -170px;
+                bottom: -160px;
+                background: radial-gradient(
+                    circle,
+                    rgba(30, 126, 131, 0.36),
+                    transparent 68%
+                );
+                animation-delay: -6s;
+            }
+
+            .page {
+                width: min(1120px, calc(100% - 40px));
+                margin: 0 auto;
+                padding: 42px 0;
+            }
+
+            .top-note {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 18px;
+                animation: pageIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            }
+
+            .top-note span {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 13px;
+                border: 1px solid rgba(220, 230, 235, 0.96);
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.74);
+                color: var(--muted);
+                font-size: 0.86rem;
+                font-weight: 700;
+                box-shadow: 0 12px 28px rgba(24, 43, 54, 0.08);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+            }
+
+            .top-note span::before {
+                content: "";
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--teal);
+                box-shadow: 0 0 0 6px rgba(30, 126, 131, 0.1);
+            }
+
+            .hero {
+                position: relative;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 24px;
+                align-items: end;
+                margin-bottom: 28px;
+                padding: 28px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.72);
+                border-radius: 28px;
+                background:
+                    linear-gradient(
+                        145deg,
+                        rgba(255, 255, 255, 0.88),
+                        rgba(255, 255, 255, 0.62)
+                    ),
+                    radial-gradient(
+                        circle at 100% 0%,
+                        rgba(201, 130, 37, 0.14),
+                        transparent 32%
+                    );
+                box-shadow: var(--shadow);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                animation: pageIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms both;
+            }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                inset: -1px;
+                z-index: -1;
+                background: linear-gradient(
+                    100deg,
+                    transparent 0 20%,
+                    rgba(255, 255, 255, 0.82) 34%,
+                    transparent 48% 100%
+                );
+                transform: translateX(-110%);
+                animation: sheen 4.8s ease-in-out 1.2s infinite;
+            }
+
+            .hero-copy {
+                position: relative;
+                z-index: 1;
+            }
+
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 10px;
+                color: var(--blue);
+                font-size: 0.86rem;
+                font-weight: 850;
+                letter-spacing: 0;
+                text-transform: uppercase;
+            }
+
+            .eyebrow-mark {
+                flex-shrink: 0;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--teal);
+                box-shadow:
+                    16px 0 0 var(--rose),
+                    32px 0 0 var(--amber);
+                /* box-shadow &#x4E0D;&#x5360; layout &#x7A7A;&#x95F4;&#xFF0C;&#x9700;&#x624B;&#x52A8;&#x7559;&#x51FA;&#x53F3;&#x4FA7;&#x4F59;&#x91CF;&#xFF1A;
+                   &#x6700;&#x53F3;&#x4FA7;&#x5706;&#x70B9;&#x5728; 32px &#x5904;&#xFF0C;&#x76F4;&#x5F84; 10px&#xFF0C;&#x5171; 42px&#xFF1B;
+                   &#x51CF;&#x53BB;&#x5143;&#x7D20;&#x81EA;&#x8EAB;&#x5BBD;&#x5EA6; 10px = &#x9700;&#x989D;&#x5916; margin 32px */
+                margin-right: 32px;
+                animation: pulseMark 2.2s ease-in-out infinite;
+            }
+
+            h1 {
+                margin: 0;
+                color: var(--ink);
+                font-size: clamp(2.15rem, 4.8vw, 4.1rem);
+                font-weight: 900;
+                letter-spacing: 0;
+                line-height: 1.05;
+                overflow-wrap: anywhere;
+            }
+
+            .hero p {
+                max-width: 720px;
+                margin: 14px 0 0;
+                color: var(--muted);
+                font-size: 1.03rem;
+            }
+
+            .hero-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                border: 1px solid rgba(220, 230, 235, 0.9);
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.72);
+                color: var(--muted);
+                font-size: 0.86rem;
+                font-weight: 700;
+                box-shadow: 0 8px 22px rgba(24, 43, 54, 0.05);
+            }
+
+            .chip-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--teal);
+                box-shadow: 0 0 0 6px rgba(30, 126, 131, 0.1);
+            }
+
+            .meta {
+                position: relative;
+                z-index: 1;
+                display: grid;
+                gap: 8px;
+                justify-items: end;
+                min-width: 190px;
+                padding: 18px;
+                color: var(--muted);
+                font-size: 0.9rem;
+                white-space: nowrap;
+                border: 1px solid rgba(220, 230, 235, 0.76);
+                border-radius: 22px;
+                background: rgba(255, 255, 255, 0.58);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+            }
+
+            .meta strong {
+                color: var(--ink);
+                font-size: 2.25rem;
+                line-height: 1;
+                letter-spacing: 0;
+            }
+
+            .systems {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 18px;
+                margin-top: 28px;
+            }
+
+            .system-card {
+                --mx: 50%;
+                --my: 50%;
+                position: relative;
+                display: grid;
+                min-height: 326px;
+                padding: 24px;
+                overflow: hidden;
+                color: var(--text);
+                text-decoration: none;
+                background:
+                    radial-gradient(
+                        circle at var(--mx) var(--my),
+                        color-mix(in srgb, var(--accent) 20%, transparent),
+                        transparent 34%
+                    ),
+                    linear-gradient(
+                        145deg,
+                        rgba(255, 255, 255, 0.94),
+                        rgba(255, 255, 255, 0.74)
+                    );
+                border: 1px solid rgba(220, 230, 235, 0.88);
+                border-radius: 26px;
+                box-shadow: var(--shadow);
+                isolation: isolate;
+                transform: translateY(18px);
+                opacity: 0;
+                animation: cardIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+                transition:
+                    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                    box-shadow 260ms ease,
+                    border-color 260ms ease,
+                    background 260ms ease;
+            }
+
+            .system-card:nth-child(1) {
+                animation-delay: 120ms;
+            }
+            .system-card:nth-child(2) {
+                animation-delay: 220ms;
+            }
+            .system-card:nth-child(3) {
+                animation-delay: 320ms;
+            }
+
+            .system-card:hover,
+            .system-card:focus-visible {
+                transform: translateY(-9px) scale(1.012);
+                box-shadow: var(--shadow-hover);
+                border-color: color-mix(in srgb, var(--accent) 42%, white);
+                outline: none;
+            }
+
+            .system-card:focus-visible {
+                box-shadow:
+                    0 0 0 5px var(--ring),
+                    var(--shadow-hover);
+            }
+
+            .system-card::before {
+                content: "";
+                position: absolute;
+                inset: 0 0 auto;
+                z-index: 1;
+                height: 7px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    color-mix(in srgb, var(--accent) 42%, white),
+                    var(--accent)
+                );
+                background-size: 220% 100%;
+                animation: flowBar 3.8s linear infinite;
+            }
+
+            .system-card::after {
+                content: "";
+                position: absolute;
+                right: 16px;
+                bottom: 16px;
+                width: 132px;
+                height: 132px;
+                opacity: 0.13;
+                background: var(--asset);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                pointer-events: none;
+                transform: rotate(-4deg) scale(1);
+                transition:
+                    transform 420ms ease,
+                    opacity 420ms ease;
+            }
+
+            .system-card:hover::after,
+            .system-card:focus-visible::after {
+                opacity: 0.2;
+                transform: rotate(2deg) scale(1.12);
+            }
+
+            .system-card .glow {
+                position: absolute;
+                inset: auto auto -52px -52px;
+                z-index: -1;
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                background: color-mix(in srgb, var(--accent) 22%, transparent);
+                filter: blur(8px);
+                opacity: 0.26;
+                transition:
+                    transform 420ms ease,
+                    opacity 420ms ease;
+            }
+
+            .system-card:hover .glow,
+            .system-card:focus-visible .glow {
+                opacity: 0.42;
+                transform: scale(1.25);
+            }
+
+            .system-card.breast {
+                --accent: var(--rose);
+                --asset: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%23b3446c' stroke-width='7' stroke-linecap='round' d='M48 104C23 84 22 44 45 25c18-15 46-11 58 12 13 25-8 57-43 64'/%3E%3Cpath fill='none' stroke='%23b3446c' stroke-width='7' stroke-linecap='round' d='M63 101C44 84 41 56 55 42c11-11 29-8 36 5 8 16-4 35-25 43'/%3E%3C/svg%3E");
+            }
+
+            .system-card.thyroid {
+                --accent: var(--teal);
+                --asset: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%231e7e83' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' d='M59 24c-13-12-34-6-39 12-6 22 10 46 32 45 7 0 10-4 10-11V36'/%3E%3Cpath fill='none' stroke='%231e7e83' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' d='M61 24c13-12 34-6 39 12 6 22-10 46-32 45-7 0-10-4-10-11V36'/%3E%3Cpath fill='none' stroke='%231e7e83' stroke-width='7' stroke-linecap='round' d='M60 76v25'/%3E%3C/svg%3E");
+            }
+
+            .system-card.lung {
+                --accent: var(--blue);
+                --asset: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='none' stroke='%2314506d' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' d='M58 18v35c0 24-12 45-31 45-10 0-15-8-13-20 3-18 15-42 31-55'/%3E%3Cpath fill='none' stroke='%2314506d' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' d='M62 18v35c0 24 12 45 31 45 10 0 15-8 13-20-3-18-15-42-31-55'/%3E%3Cpath fill='none' stroke='%2314506d' stroke-width='7' stroke-linecap='round' d='M60 50h-8M60 50h8'/%3E%3C/svg%3E");
+            }
+
+            .card-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 30px;
+            }
+
+            .card-icon {
+                display: grid;
+                width: 56px;
+                height: 56px;
+                place-items: center;
+                color: var(--accent);
+                background: #f7fbfd;
+                background: color-mix(in srgb, var(--accent) 12%, white);
+                border: 1px solid rgba(220, 230, 235, 0.88);
+                border-color: color-mix(in srgb, var(--accent) 28%, white);
+                border-radius: 18px;
+                box-shadow:
+                    inset 0 1px 0 rgba(255, 255, 255, 0.74),
+                    0 12px 26px
+                        color-mix(in srgb, var(--accent) 14%, transparent);
+                transition:
+                    transform 320ms ease,
+                    border-radius 320ms ease;
+            }
+
+            .system-card:hover .card-icon,
+            .system-card:focus-visible .card-icon {
+                transform: translateY(-3px) rotate(-3deg);
+                border-radius: 20px;
+            }
+
+            .card-icon svg {
+                width: 28px;
+                height: 28px;
+                stroke: currentColor;
+            }
+
+            .version {
+                color: var(--accent);
+                border: 1px solid rgba(220, 230, 235, 0.88);
+                border-color: color-mix(in srgb, var(--accent) 28%, white);
+                border-radius: 999px;
+                padding: 5px 11px;
+                background: rgba(255, 255, 255, 0.62);
+                font-size: 0.78rem;
+                font-weight: 900;
+                box-shadow: 0 7px 16px rgba(24, 43, 54, 0.05);
+            }
+
+            .system-card h2 {
+                margin: 0;
+                color: var(--ink);
+                font-size: 1.48rem;
+                line-height: 1.25;
+                font-weight: 880;
+                letter-spacing: 0;
+            }
+
+            .system-card p {
+                margin: 12px 0 24px;
+                color: var(--muted);
+                font-size: 0.96rem;
+            }
+
+            .open-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 14px;
+                margin-top: auto;
+                color: var(--accent);
+                font-weight: 900;
+            }
+
+            .file-name {
+                min-width: 0;
+                color: #7b8d96;
+                font-size: 0.79rem;
+                font-weight: 700;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                transition: color 240ms ease;
+            }
+
+            .system-card:hover .file-name,
+            .system-card:focus-visible .file-name {
+                color: color-mix(in srgb, var(--accent) 76%, #7b8d96);
+            }
+
+            .arrow {
+                display: grid;
+                flex: 0 0 auto;
+                width: 39px;
+                height: 39px;
+                place-items: center;
+                color: white;
+                background: var(--accent);
+                background: linear-gradient(
+                    135deg,
+                    var(--accent),
+                    color-mix(in srgb, var(--accent) 70%, black)
+                );
+                border-radius: 50%;
+                box-shadow: 0 10px 22px
+                    color-mix(in srgb, var(--accent) 28%, transparent);
+                transition:
+                    transform 260ms ease,
+                    box-shadow 260ms ease;
+            }
+
+            .system-card:hover .arrow,
+            .system-card:focus-visible .arrow {
+                transform: translateX(5px) rotate(-8deg);
+                box-shadow: 0 15px 30px
+                    color-mix(in srgb, var(--accent) 34%, transparent);
+            }
+
+            .footer {
+                display: flex;
+                justify-content: space-between;
+                gap: 18px;
+                margin-top: 26px;
+                padding: 18px 4px 0;
+                border-top: 1px solid var(--line);
+                color: var(--muted);
+                font-size: 0.86rem;
+                animation: pageIn 720ms cubic-bezier(0.2, 0.8, 0.2, 1) 360ms
+                    both;
+            }
+
+            @supports not (background: color-mix(in srgb, white, black)) {
+                .card-icon {
+                    background: #f7fbfd;
+                }
+                .system-card {
+                    background: var(--panel-strong);
+                }
+                .arrow {
+                    background: var(--accent);
+                }
+            }
+
+            @media (max-width: 900px) {
+                .page {
+                    width: min(100% - 28px, 1120px);
+                }
+                .top-note {
+                    justify-content: flex-start;
+                }
+                .hero {
+                    grid-template-columns: 1fr;
+                    align-items: start;
+                }
+                .meta {
+                    justify-items: start;
+                    white-space: normal;
+                }
+                .systems {
+                    grid-template-columns: 1fr;
+                }
+                .system-card {
+                    min-height: 270px;
+                }
+            }
+
+            @media (max-width: 560px) {
+                .page {
+                    width: min(100% - 24px, 1120px);
+                    padding: 24px 0;
+                }
+                .hero {
+                    padding: 22px;
+                    border-radius: 24px;
+                }
+                h1 {
+                    font-size: clamp(2rem, 10vw, 2.85rem);
+                }
+                .hero-actions {
+                    gap: 8px;
+                }
+                .chip {
+                    width: 100%;
+                    justify-content: flex-start;
+                }
+                .system-card {
+                    padding: 20px;
+                    border-radius: 24px;
+                }
+                .system-card::after {
+                    width: 92px;
+                    height: 92px;
+                }
+                .footer {
+                    display: block;
+                }
+                .footer span {
+                    display: block;
+                    margin-top: 8px;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.001ms !important;
+                    animation-iteration-count: 1 !important;
+                    scroll-behavior: auto !important;
+                    transition-duration: 0.001ms !important;
+                }
+            }
+
+            @keyframes pageIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(18px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes cardIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes sheen {
+                0%,
+                55% {
+                    transform: translateX(-110%);
+                }
+                75%,
+                100% {
+                    transform: translateX(110%);
+                }
+            }
+
+            @keyframes floatOrb {
+                from {
+                    transform: translate3d(0, 0, 0) scale(1);
+                }
+                to {
+                    transform: translate3d(36px, 28px, 0) scale(1.08);
+                }
+            }
+
+            @keyframes pulseMark {
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 0.92;
+                }
+                50% {
+                    transform: scale(1.18);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes flowBar {
+                to {
+                    background-position: 220% 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="page">
+            <div class="top-note" aria-label="&#x9875;&#x9762;&#x8BF4;&#x660E;">
+                <span>GitHub &#x9879;&#x76EE;&#x5BFC;&#x822A;&#x4E3B;&#x9875;</span>
+            </div>
+
+            <header class="hero">
+                <div class="hero-copy">
+                    <div class="eyebrow">
+                        <span class="eyebrow-mark" aria-hidden="true"></span>
+                        GitHub Pages Navigation
+                    </div>
+                    <h1>med-phraze-sys-index.html</h1>
+                    <p>
+                        &#x4E73;&#x817A;&#x5206;&#x671F;&#x3001;&#x7532;&#x72B6;&#x817A;&#x5206;&#x671F;&#x4E0E;&#x80BA;&#x764C;&#x5206;&#x671F;&#x9879;&#x76EE;&#x5BFC;&#x822A;&#xFF0C;&#x70B9;&#x51FB;&#x5361;&#x7247;&#x5373;&#x53EF;&#x6253;&#x5F00;&#x5BF9;&#x5E94;&#x7684; GitHub Pages&#x3002;
+                    </p>
+                    <div class="hero-actions" aria-label="&#x9875;&#x9762;&#x7279;&#x70B9;">
+                        <span class="chip"
+                            ><span class="chip-dot" aria-hidden="true"></span
+                            >GitHub Pages</span
+                        >
+                        <span class="chip"
+                            ><span class="chip-dot" aria-hidden="true"></span
+                            >&#x9879;&#x76EE;&#x5BFC;&#x822A;</span
+                        >
+                        <span class="chip"
+                            ><span class="chip-dot" aria-hidden="true"></span
+                            >&#x7EBF;&#x4E0A;&#x8BBF;&#x95EE;</span
+                        >
+                    </div>
+                </div>
+                <div
+                    class="meta"
+                    aria-label="&#x7CFB;&#x7EDF;&#x6570;&#x91CF;"
+                    style="display: flex; align-items: center; gap: 8px"
+                >
+                    <strong id="systemCount">3</strong>
+                    <span>&#x4E2A; GitHub &#x9879;&#x76EE;</span>
+                </div>
+            </header>
+
+            <section class="systems" aria-label="&#x5206;&#x671F;&#x7CFB;&#x7EDF;&#x5217;&#x8868;">
+                <!-- &#x4E73;&#x817A;&#x5206;&#x671F; -->
+                <a
+                    class="system-card breast"
+                    href="https://liqi3333.github.io/breast/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="&#x6253;&#x5F00;&#x4E73;&#x817A;&#x5206;&#x671F; GitHub &#x9879;&#x76EE;"
+                >
+                    <span class="glow" aria-hidden="true"></span>
+                    <div>
+                        <div class="card-top">
+                            <span class="card-icon" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M7 20c-4-4-4-11 0-15 4-4 11-4 15 0"
+                                    />
+                                    <path
+                                        d="M10 19c-2.8-3-2.8-8 0-10.8 2.8-2.8 7.4-2.8 10.2 0"
+                                    />
+                                    <path
+                                        d="M13.5 18.2c-1.4-1.7-1.3-4.3.3-5.9 1.6-1.6 4.2-1.6 5.8 0"
+                                    />
+                                </svg>
+                            </span>
+                            <span class="version">Pages</span>
+                        </div>
+                        <h2>&#x4E73;&#x817A;&#x5206;&#x671F;</h2>
+                        <p>&#x4E73;&#x817A;&#x764C;&#x5206;&#x671F;&#x5DE5;&#x5177;&#x7EBF;&#x4E0A;&#x5165;&#x53E3;&#x3002;</p>
+                    </div>
+                    <div class="open-row">
+                        <span class="file-name"
+                            >liqi3333.github.io/breast</span
+                        >
+                        <span class="arrow" aria-hidden="true">&#x2192;</span>
+                    </div>
+                </a>
+
+                <!-- &#x7532;&#x72B6;&#x817A;&#x5206;&#x671F; -->
+                <a
+                    class="system-card thyroid"
+                    href="https://liqi3333.github.io/thyroid/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="&#x6253;&#x5F00;&#x7532;&#x72B6;&#x817A;&#x5206;&#x671F; GitHub &#x9879;&#x76EE;"
+                >
+                    <span class="glow" aria-hidden="true"></span>
+                    <div>
+                        <div class="card-top">
+                            <span class="card-icon" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M11.7 5.2C9.3 2.8 5.2 3.7 4.2 7.1c-1.3 4.3 1.7 9 6.1 8.8 1.4-.1 1.9-.9 1.9-2.2V7"
+                                    />
+                                    <path
+                                        d="M12.3 5.2c2.4-2.4 6.5-1.5 7.5 1.9 1.3 4.3-1.7 9-6.1 8.8-1.4-.1-1.9-.9-1.9-2.2V7"
+                                    />
+                                    <path d="M12 16v4" />
+                                </svg>
+                            </span>
+                            <span class="version">Pages</span>
+                        </div>
+                        <h2>&#x7532;&#x72B6;&#x817A;&#x5206;&#x671F;</h2>
+                        <p>&#x7532;&#x72B6;&#x817A;&#x764C;&#x5206;&#x671F;&#x5DE5;&#x5177;&#x7EBF;&#x4E0A;&#x5165;&#x53E3;&#x3002;</p>
+                    </div>
+                    <div class="open-row">
+                        <span class="file-name"
+                            >liqi3333.github.io/thyroid</span
+                        >
+                        <span class="arrow" aria-hidden="true">&#x2192;</span>
+                    </div>
+                </a>
+
+                <!-- &#x80BA;&#x764C;&#x5206;&#x671F; -->
+                <a
+                    class="system-card lung"
+                    href="https://liqi3333.github.io/lung-staging-system/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="&#x6253;&#x5F00;&#x80BA;&#x764C;&#x5206;&#x671F; GitHub &#x9879;&#x76EE;"
+                >
+                    <span class="glow" aria-hidden="true"></span>
+                    <div>
+                        <div class="card-top">
+                            <span class="card-icon" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M11.5 3v7.5c0 5.1-2.6 9.5-6.6 9.5-2.1 0-3.1-1.6-2.7-4.1.6-3.8 3.1-8.8 6.4-11.6"
+                                    />
+                                    <path
+                                        d="M12.5 3v7.5c0 5.1 2.6 9.5 6.6 9.5 2.1 0 3.1-1.6 2.7-4.1-.6-3.8-3.1-8.8-6.4-11.6"
+                                    />
+                                    <path d="M12 10.5h-2" />
+                                    <path d="M12 10.5h2" />
+                                </svg>
+                            </span>
+                            <span class="version">Pages</span>
+                        </div>
+                        <h2>&#x80BA;&#x764C;&#x5206;&#x671F;</h2>
+                        <p>&#x80BA;&#x764C;&#x5206;&#x671F;&#x5DE5;&#x5177;&#x7EBF;&#x4E0A;&#x5165;&#x53E3;&#x3002;</p>
+                    </div>
+                    <div class="open-row">
+                        <span class="file-name"
+                            >liqi3333.github.io/lung-staging-system</span
+                        >
+                        <span class="arrow" aria-hidden="true">&#x2192;</span>
+                    </div>
+                </a>
+            </section>
+
+            <footer class="footer">
+                <span>med-phraze-sys-index.html</span>
+                <span>liqi3333.github.io &#x9879;&#x76EE;&#x5165;&#x53E3;</span>
+            </footer>
+        </main>
+
+        <script>
+            const root = document.documentElement;
+            const reduceMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+
+            // &#x80CC;&#x666F;&#x9F20;&#x6807;&#x8FFD;&#x5149;
+            document.addEventListener(
+                "pointermove",
+                (e) => {
+                    root.style.setProperty(
+                        "--mouse-x",
+                        `${(e.clientX / window.innerWidth) * 100}%`,
+                    );
+                    root.style.setProperty(
+                        "--mouse-y",
+                        `${(e.clientY / window.innerHeight) * 100}%`,
+                    );
+                },
+                { passive: true },
+            );
+
+            // &#x5361;&#x7247;&#x5185;&#x9F20;&#x6807;&#x8FFD;&#x5149;
+            document.querySelectorAll(".system-card").forEach((card) => {
+                card.addEventListener("pointermove", (e) => {
+                    const r = card.getBoundingClientRect();
+                    card.style.setProperty(
+                        "--mx",
+                        `${((e.clientX - r.left) / r.width) * 100}%`,
+                    );
+                    card.style.setProperty(
+                        "--my",
+                        `${((e.clientY - r.top) / r.height) * 100}%`,
+                    );
+                });
+                card.addEventListener("pointerleave", () => {
+                    card.style.setProperty("--mx", "50%");
+                    card.style.setProperty("--my", "50%");
+                });
+            });
+
+            // &#x6570;&#x5B57;&#x6EDA;&#x52A8;&#x52A8;&#x753B;
+            const counter = document.getElementById("systemCount");
+            if (counter && !reduceMotion) {
+                let start = null;
+                const duration = 780;
+                const tick = (ts) => {
+                    if (!start) start = ts;
+                    const p = Math.min((ts - start) / duration, 1);
+                    counter.textContent = Math.round(p * 3);
+                    if (p < 1) requestAnimationFrame(tick);
+                };
+                counter.textContent = "0";
+                requestAnimationFrame(tick);
+            }
+        </script>
+    </body>
+</html>
